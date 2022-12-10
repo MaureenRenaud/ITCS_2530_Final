@@ -51,6 +51,8 @@ int main()
 
 void addBook(bookRecord list[])
 {
+    cout << "Title of Book: ";
+    
 
 };
 
