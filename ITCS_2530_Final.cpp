@@ -1,20 +1,85 @@
-// ITCS_2530_Final.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// ITCS_2530_Final.cpp 
+// Maureen Renaud
+// Joshua Quintano
 
 #include <iostream>
+#include <string>
 
+using namespace std;
+
+//Structures
+struct bookRecord
+{
+    int ID;
+    string Title;
+    string authorLast;
+};
+
+struct patronRecord
+{
+    int ID;
+    string firstName;
+    string lastName;
+};
+
+//Stubs
+void addBook(bookRecord list[]);
+void deleteBook(bookRecord list[]);
+void addPatron(patronRecord list[]);
+void deletePatron(patronRecord list[]);
+void borrowBook(bookRecord list[]);
+void returnBook(bookRecord list[]);
+void checkAccount(bookRecord list[]);
+
+//Constants
+const int BOOK_ARRAY_SIZE = 100;
+const int PATRON_ARRAY_SIZE = 100;
+
+//Main
 int main()
 {
-    std::cout << "Hello World!\n";
+    //Variables
+
+    //Arrays
+    bookRecord bookList[BOOK_ARRAY_SIZE];
+    patronRecord patronList[PATRON_ARRAY_SIZE];
+    bookRecord patronAccount[BOOK_ARRAY_SIZE];
+    
+
+    return 0;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void addBook(bookRecord list[])
+{
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+};
+
+void deleteBook(bookRecord list[]) 
+{
+
+};
+
+void addPatron(patronRecord list[]) 
+{
+
+};
+
+void deletePatron(patronRecord list[]) 
+{
+
+};
+
+void borrowBook(bookRecord list[]) 
+{
+
+};
+
+void returnBook(bookRecord list[])
+{
+
+};
+
+void checkAccount(bookRecord list[])
+{
+
+};
