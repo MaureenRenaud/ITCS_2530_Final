@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ using namespace std;
 struct bookRecord
 {
     int ID;
-    string Title;
+    string title;
     string authorLast;
 };
 
@@ -25,6 +26,7 @@ struct patronRecord
 };
 
 //Stubs
+bool StoreData(string file_name, bookRecord list[], int arraySize);
 void addBook(bookRecord list[]);
 void deleteBook(bookRecord list[]);
 void addPatron(patronRecord list[]);
@@ -36,8 +38,26 @@ void checkAccount(bookRecord list[]);
 //Constants
 const int BOOK_ARRAY_SIZE = 100;
 const int PATRON_ARRAY_SIZE = 100;
+string book_file_name = "Books.txt";
+string patron_file_name = "Patrons.txt";
 
-//functions
+
+//Main
+int main()
+{
+    //Variables
+
+    //Arrays
+    bookRecord bookList[BOOK_ARRAY_SIZE];
+    patronRecord patronList[PATRON_ARRAY_SIZE];
+    bookRecord patronAccount[BOOK_ARRAY_SIZE];
+    bookRecord borrowedBooks[BOOK_ARRAY_SIZE];
+    
+    //function calls
+    PrintMenu();
+    return 0;
+}
+
 void PrintMenu()
 {
     cout << setw(28) << setfill('*') << '*' << endl;
@@ -53,12 +73,12 @@ void PrintMenu()
     cout << "Return book(RB)." << endl;
     cout << "Check account(CA)." << endl << endl;
 
-    while (input != "q") 
-    {  
+    while (input != "q")
+    {
         cout << "Please make a selection: ";
         cin >> input;
         if (input == "AB")
-        {         
+        {
             cout << "check";
         }
         else if (input == "DB")
@@ -77,7 +97,7 @@ void PrintMenu()
         {
             cout << "check";
         }
-        else if (input == "RB") 
+        else if (input == "RB")
         {
             cout << "check";
         }
@@ -89,30 +109,56 @@ void PrintMenu()
             cout << "Thank you!";
             exit(0);
         }
-        
-    }   
-    
+
+    }
+
 }
-//Main
-int main()
+
+
+bool StoreData(string file_name, bookRecord list[], int arraySize)
 {
-    //Variables
+    int i = 0;
 
-    //Arrays
-    bookRecord bookList[BOOK_ARRAY_SIZE];
-    patronRecord patronList[PATRON_ARRAY_SIZE];
-    bookRecord patronAccount[BOOK_ARRAY_SIZE];
-    
-    //function calls
-    PrintMenu();
-    return 0;
+    //Opening File
+    ifstream fs;
+    fs.open(file_name);
+    if (!fs.is_open())
+    {
+        cout << "Could not open file.  Program is exiting." << endl;
+        return false;
+    }
+    else
+        cout << endl;
+  
+        //Read data
+    while (!fs.eof())
+    {
+        for (i = 0; i < arraySize; i++)
+        {
+            fs >> list[i].ID;
+            getline(fs, list[i].title, '"');
+            fs >> list[i].authorLast;
+            
+        }
+    }
+    //Closing file
+    fs.close();
+    return true;
 }
-
 
 void addBook(bookRecord list[])
 {
-    cout << "Title of Book: ";
-    
+    int len;
+    int i;
+
+    len = sizeof(list) / sizeof(list[0]);
+    i = len + 1;
+  
+    cout << "Please enter the title of the book: ";
+    cin >> list[i].title;
+
+    cout << "Please enter the author's last name: ";
+    cin >> list[i].authorLast;
 
 };
 
@@ -123,6 +169,20 @@ void deleteBook(bookRecord list[])
 
 void addPatron(patronRecord list[]) 
 {
+    int len;
+    int i;
+
+    len = sizeof(list) / sizeof(list[0]);
+    i = len + 1;
+
+    cout << "Please enter the patron's ID number: ";
+    cin >> list[i].ID;
+
+    cout << "Please enter the patron's first name: ";
+    cin >> list[i].firstName;
+
+    cout << "Please enter the patron's last name: ";
+    cin >> list[i].lastName;
 
 };
 
@@ -131,9 +191,19 @@ void deletePatron(patronRecord list[])
 
 };
 
-void borrowBook(bookRecord list[]) 
+void borrowBook(bookRecord list[])
 {
+    int len;
+    int i;
 
+    len = sizeof(list) / sizeof(list[0]);
+    i = len + 1;
+
+    cout << "Please enter the title of the book: ";
+    cin >> list[i].title;
+
+    cout << "Please enter the author's last name: ";
+    cin >> list[i].authorLast;
 };
 
 void returnBook(bookRecord list[])
