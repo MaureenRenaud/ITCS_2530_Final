@@ -99,7 +99,6 @@ void PrintMenu()
 bool StoreData(string file_name, bookRecord list[], int arraySize)
 {
     int i = 0;
-    cout << "hello";
     //Opening File
     ifstream fs(file_name);
     
@@ -108,21 +107,42 @@ bool StoreData(string file_name, bookRecord list[], int arraySize)
         cout << "Could not open file.  Program is exiting." << endl;
         return false;
     }
+    //read data
     else
-        cout << endl;
+        for (i = 0; i < arraySize; i++)
+        {
+            fs >> list[i].ID;
+            getline(fs, list[i].title, '.');
+            fs >> list[i].authorLast;
+        }
+  
+    //Closing file
+    fs.close();
+    return true;
+}
+bool StoreDataPatron(string file_name, patronRecord patronlist[], int arraySize) {
+    int i = 0;
+    //Opening File
+    ifstream fs(file_name);
 
-    //Read data
- 
-    for (i = 0; i < arraySize; i++)
+    if (!fs.is_open())
     {
-        fs >> list[i].ID;
-        fs.ignore(1, ' ');
-        getline(fs, list[i].title, '.');
-        fs >> list[i].authorLast;
-
-
+        cout << "Could not open file.  Program is exiting." << endl;
+        return false;
     }
-    
+    //Read data
+    else
+        for (i = 0; i < arraySize; i++)
+        {
+            fs >> patronlist[i].ID;
+            fs.ignore(1, ' ');
+            getline(fs, patronlist[i].firstName, ' ');
+            fs >> patronlist[i].lastName;
+
+        }
+
+
+
     //Closing file
     fs.close();
     return true;
@@ -141,6 +161,7 @@ int main(int argc, char* argv[])
     
     //function calls
     StoreData(bookfile, bookList, BOOK_ARRAY_SIZE);
+    StoreDataPatron(patronfile, patronList, PATRON_ARRAY_SIZE);
     PrintMenu();
     return 0;
 }
