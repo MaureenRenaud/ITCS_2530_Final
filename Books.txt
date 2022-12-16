@@ -1,10 +1,10 @@
-1 "Pride and Prejudice" Austen
-2 "To Kill a Mockingbird" Lee
-3 "The Great Gatsby" Fitzgerald
-4 "Brave New World" Huxley
-5 "Crime and Punishment" Dostoevsky
-6 "The Call of the Wild" London
-7 "Moby Dick" Melville
-8 "The Lion, the Witch, and the Wardrobe" Lewis
-9 "Frankenstein" Shelley
-10 "The Grapes of Wrath" Steinbeck
+1 "Pride and Prejudice". Austen
+2 "To Kill a Mockingbird". Lee
+3 "The Great Gatsby". Fitzgerald
+4 "Brave New World". Huxley
+5 "Crime and Punishment". Dostoevsky
+6 "The Call of the Wild". London
+7 "Moby Dick". Melville
+8 "The Lion, the Witch, and the Wardrobe". Lewis
+9 "Frankenstein". Shelley
+10 "The Grapes of Wrath". Steinbeck

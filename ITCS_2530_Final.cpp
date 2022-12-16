@@ -41,23 +41,6 @@ const int PATRON_ARRAY_SIZE = 100;
 string book_file_name = "Books.txt";
 string patron_file_name = "Patrons.txt";
 
-
-//Main
-int main()
-{
-    //Variables
-
-    //Arrays
-    bookRecord bookList[BOOK_ARRAY_SIZE];
-    patronRecord patronList[PATRON_ARRAY_SIZE];
-    bookRecord patronAccount[BOOK_ARRAY_SIZE];
-    bookRecord borrowedBooks[BOOK_ARRAY_SIZE];
-    
-    //function calls
-    PrintMenu();
-    return 0;
-}
-
 void PrintMenu()
 {
     cout << setw(28) << setfill('*') << '*' << endl;
@@ -113,15 +96,13 @@ void PrintMenu()
     }
 
 }
-
-
 bool StoreData(string file_name, bookRecord list[], int arraySize)
 {
     int i = 0;
-
+    cout << "hello";
     //Opening File
-    ifstream fs;
-    fs.open(file_name);
+    ifstream fs(file_name);
+    
     if (!fs.is_open())
     {
         cout << "Could not open file.  Program is exiting." << endl;
@@ -129,22 +110,42 @@ bool StoreData(string file_name, bookRecord list[], int arraySize)
     }
     else
         cout << endl;
-  
-        //Read data
-    while (!fs.eof())
+
+    //Read data
+ 
+    for (i = 0; i < arraySize; i++)
     {
-        for (i = 0; i < arraySize; i++)
-        {
-            fs >> list[i].ID;
-            getline(fs, list[i].title, '"');
-            fs >> list[i].authorLast;
-            
-        }
+        fs >> list[i].ID;
+        fs.ignore(1, ' ');
+        getline(fs, list[i].title, '.');
+        fs >> list[i].authorLast;
+
+
     }
+    
     //Closing file
     fs.close();
     return true;
 }
+//Main
+int main(int argc, char* argv[])
+{
+    //Variables
+    string bookfile = argv[1];
+    string patronfile = argv[2];
+    //Arrays
+    bookRecord bookList[BOOK_ARRAY_SIZE];
+    patronRecord patronList[PATRON_ARRAY_SIZE];
+    bookRecord patronAccount[BOOK_ARRAY_SIZE];
+    bookRecord borrowedBooks[BOOK_ARRAY_SIZE];
+    
+    //function calls
+    StoreData(bookfile, bookList, BOOK_ARRAY_SIZE);
+    PrintMenu();
+    return 0;
+}
+
+
 
 void addBook(bookRecord list[])
 {
@@ -164,7 +165,11 @@ void addBook(bookRecord list[])
 
 void deleteBook(bookRecord list[]) 
 {
+    int len;
+    int i;
 
+    len = sizeof(list) / sizeof(list[0]);
+    
 };
 
 void addPatron(patronRecord list[]) 
