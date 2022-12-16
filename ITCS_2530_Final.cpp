@@ -288,6 +288,7 @@ void returnBook(borrowedRecord list[])
 
 void checkAccount(bookRecord list[])
 {
+   
     int i = 0;
 
     for (i = 0; i < BOOK_ARRAY_SIZE; i++)
@@ -305,6 +306,7 @@ void checkAccount(bookRecord list[])
 
 void checkBookList(bookRecord list[])
 {
+    cout << "Books Owned By The Library" << endl;
     int i = 0;
 
     for (i = 0; i < BOOK_ARRAY_SIZE; i++)
