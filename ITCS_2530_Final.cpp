@@ -67,6 +67,8 @@ void PrintMenu()
     cout << "Borrow book(BB)." << endl;
     cout << "Return book(RB)." << endl;
     cout << "Check borrowed books (CBB)." << endl;
+    cout << "Check patron list(CP)." << endl;
+    cout << "To check the record of all books (All). " << endl;
     cout << "Check account(CA)." << endl << endl;
 }
 
@@ -124,20 +126,28 @@ bool StoreDataPatron(string file_name, patronRecord patronlist[], int arraySize)
 
 void addBook(bookRecord list[])
 {
-    int len;
+    int index;
     int i;
+    int j;
 
-    len = sizeof(list);
-    i = len + 2;
+    for (int i = 0; i < BOOK_ARRAY_SIZE; i++)
+    {
+        if (list[i].ID == 0)
+        {
+            //If current value is equal to our element then replace the index value and break the loop
+            index = i;
+        }
+    }
+    j = index;
 
     cout << "Please enter the ID number of the book: ";
-    cin >> list[i].ID;
+    cin >> list[j].ID;
     cin.ignore();
     cout << "Please enter the title of the book followed by an asterisk(*): ";
-    getline(cin, list[i].title, '*');
-    cin.ignore();
+    getline(cin, list[j].title, '*');
+     
     cout << "Please enter the author's last name: ";
-    cin >> list[i].authorLast;
+    cin >> list[j].authorLast;
 
     cout << endl;
 
@@ -170,25 +180,54 @@ void deleteBook(bookRecord list[])
 
 void addPatron(patronRecord list[])
 {
-    int len;
+    int index;
     int i;
+    int j;
 
-    len = sizeof(list);
-    i = len + 2;
+    for (int i = 0; i < BOOK_ARRAY_SIZE; i++)
+    {
+        if (list[i].ID == 0)
+        {
+            //If current value is equal to our element then replace the index value and break the loop
+            index = i;
+        }
+    }
+    j = index;
 
     cout << "Please enter the patron's ID number: ";
-    cin >> list[i].ID;
-
+    cin >> list[j].ID;
+    cin.ignore();
     cout << "Please enter the patron's first name: ";
-    cin >> list[i].firstName;
-
+    cin >> list[j].firstName;
+    cin.ignore();
     cout << "Please enter the patron's last name: ";
-    cin >> list[i].lastName;
+    cin >> list[j].lastName;
 
 }
 
 void deletePatron(patronRecord list[])
 {
+    //Variables
+    int deleted;
+    int ID_num;
+    int index = 0;
+    int j = 0;
+
+    // Describe
+    cout << "Please enter the ID for the patron to be deleted: ";
+    cin >> deleted;
+
+    for (int i = 0; i < PATRON_ARRAY_SIZE; i++)
+    {
+        if (list[i].ID == deleted)
+        {
+            //If current value is equal to the deleted index then replace the index value and break the loop
+            index = i;
+        }
+    }
+    for (int j = index + 1; j < PATRON_ARRAY_SIZE; j++) {
+        list[j - 1] = list[j];
+    }
 
 }
 
@@ -222,14 +261,13 @@ void borrowBook(borrowedRecord list[])
 
 void returnBook(borrowedRecord list[])
 {
-    //Property props[10];
-    int prop_count = 0;
+    //Variables
     int returned;
     int ID_num;
     int index = 0;
     int j = 0;
 
-    // Fill props somehow, incrementing prop_count each time you add an item
+    // Describe
     cout << "Please enter the ID for the returned book: ";
     cin >> returned;
 
@@ -251,11 +289,35 @@ void returnBook(borrowedRecord list[])
 void checkAccount(bookRecord list[])
 {
     int i = 0;
+
     for (i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
-        cout << list[i].ID << ("..") << list[i].title << ("..") << list[i].authorLast << endl;
+        if (list[i].ID == 0)
+        {
+            continue;
+        }
+        else
+        {
+            cout << list[i].ID << ("..") << list[i].title << ("..") << list[i].authorLast << endl;
+        }
     }
+}
 
+void checkBookList(bookRecord list[])
+{
+    int i = 0;
+
+    for (i = 0; i < BOOK_ARRAY_SIZE; i++)
+    {
+        if (list[i].ID == 0)
+        {
+            continue;
+        }
+        else
+        {
+            cout << list[i].ID << ("..") << list[i].title << ("..") << list[i].authorLast << endl;
+        }
+    }
 }
 
 void checkBorrowedBooks(borrowedRecord list[])
@@ -263,11 +325,38 @@ void checkBorrowedBooks(borrowedRecord list[])
     int i = 0;
     for (i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
-        if (list[i].bookID != 0)
+        if (list[i].bookID == 0)
+        {
+
+            continue;
+        }
+        else
         {
             cout << list[i].bookID << ("..") << list[i].title << ("..") << list[i].authorLast << endl;
             cout << list[i].patronfirstName << ("..") << list[i].patronlastName << endl;
         }
+        
+       
+    }
+
+}
+
+void checkPatrons(patronRecord list[])
+{
+    int i = 0;
+    for (i = 0; i < PATRON_ARRAY_SIZE; i++)
+    {
+        if (list[i].ID == 0)
+        {
+
+            continue;
+        }
+        else
+        {
+            cout << list[i].ID << ("..") << list[i].firstName << ("..") << list[i].lastName << endl;
+        }
+
+
     }
 
 }
@@ -280,12 +369,23 @@ int main()
     //string bookfile = argv[1];
     //string patronfile = argv[2];
     string input;
+    int i;
 
     //Arrays
     bookRecord bookList[BOOK_ARRAY_SIZE];
     patronRecord patronList[PATRON_ARRAY_SIZE];
     borrowedRecord borrowedBooks[BOOK_ARRAY_SIZE];
     
+    for (i = 0; i < BOOK_ARRAY_SIZE; i++)
+    {
+        borrowedBooks[i].bookID = 0;
+        borrowedBooks[i].title = " ";
+        borrowedBooks[i].authorLast = " ";
+        borrowedBooks[i].patronID = 0;
+        borrowedBooks[i].patronfirstName = " ";
+        borrowedBooks[i].patronlastName =  " ";
+
+    }
     //function calls
     StoreData(book_file_name, bookList, BOOK_ARRAY_SIZE);
     StoreDataPatron(patron_file_name, patronList, PATRON_ARRAY_SIZE);
@@ -314,7 +414,7 @@ int main()
         else if (input == "DP")
         {
             cin.ignore();
-            cout << "check";
+            deletePatron(patronList);
         }
         else if (input == "BB")
         {
@@ -336,9 +436,21 @@ int main()
             checkAccount(bookList);
             
         }
-        else {
-            cout << "Thank you!";
-            //exit(0);
+        else if (input == "CP")
+        {
+            cin.ignore();
+            checkPatrons(patronList);
+        }
+        else if (input == "All")
+        {
+            cin.ignore();
+            checkBookList(bookList);
+        }
+
+        else 
+        {
+            cout << "I don't understand. Please make a selection: ";
+            cin >> input;
         }
     }
     return 0;
