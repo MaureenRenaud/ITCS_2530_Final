@@ -237,8 +237,8 @@ void borrowBook(borrowedRecord list[])
     int i;
 
     len = sizeof(list);
- 
-    cout << len;
+    i = len + 1;
+    
     cout << "Please enter the ID number of the book: ";
     cin >> list[i].bookID;
     cin.ignore();
@@ -398,6 +398,7 @@ int main()
         borrowedBooks[i].patronlastName =  " ";
 
     }
+    
     //function calls
     StoreData(book_file_name, bookList, BOOK_ARRAY_SIZE);
     StoreDataPatron(patron_file_name, patronList, PATRON_ARRAY_SIZE);
