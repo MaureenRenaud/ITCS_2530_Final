@@ -10,6 +10,8 @@
 using namespace std;
 
 //Structures
+
+//This structure holds an ID number, title, and author for each book
 struct bookRecord
 {
     int ID;
@@ -17,6 +19,7 @@ struct bookRecord
     string authorLast;
 };
 
+//This structure holds an ID number, first name, and last name for each author
 struct patronRecord
 {
     int ID;
@@ -25,6 +28,8 @@ struct patronRecord
     
 };
 
+//This structure holds an book ID, book title, book author, patron ID, patron first name, and patron last name
+//for borrowed books
 struct borrowedRecord
 {
     int bookID;
@@ -37,20 +42,27 @@ struct borrowedRecord
 };
 
 //Stubs
+void PrintMenu();
 bool StoreData(string file_name, bookRecord list[], int arraySize);
+bool StoreDataPatron(string file_name, patronRecord patronlist[], int arraySize);
 void addBook(bookRecord list[]);
 void deleteBook(bookRecord list[]);
 void addPatron(patronRecord list[]);
 void deletePatron(patronRecord list[]);
 void borrowBook(borrowedRecord list[]);
 void returnBook(borrowedRecord list[]);
-void checkAccount(bookRecord list[]);
+void checkAccount(borrowedRecord list[]);
+void checkBookList(bookRecord list[]);
+void checkBorrowedBooks(borrowedRecord list[]);
 
 //Constants
 const int BOOK_ARRAY_SIZE = 25;
 const int PATRON_ARRAY_SIZE = 25;
 string book_file_name = "Books.txt";
 string patron_file_name = "Patrons.txt";
+
+//This function prints Library Services at the top and lists the menu options
+//Joshua Quintano
 
 void PrintMenu()
 {
@@ -72,6 +84,9 @@ void PrintMenu()
     cout << "Check account(CA)." << endl << endl;
 }
 
+//This function opens up the file of books and writes the data to an array of structures.
+//Maureen Renaud
+
 bool StoreData(string file_name, bookRecord list[], int arraySize)
 {
     int i = 0;
@@ -80,10 +95,11 @@ bool StoreData(string file_name, bookRecord list[], int arraySize)
     
     if (!fs.is_open())
     {
+        // Error Message is File is unable to be opened
         cout << "Could not open file.  Program is exiting." << endl;
         return false;
     }
-    //read data
+    //This reads each line of data into an ID for the book, title for book, and author last name
     else
         for (i = 0; i < arraySize; i++)
         {
@@ -96,17 +112,23 @@ bool StoreData(string file_name, bookRecord list[], int arraySize)
     fs.close();
     return true;
 }
-bool StoreDataPatron(string file_name, patronRecord patronlist[], int arraySize) {
+
+//This function opens up the file of patrons and writes the data to an array of structures.
+//Joshua Quintano
+
+bool StoreDataPatron(string file_name, patronRecord patronlist[], int arraySize) 
+{
     int i = 0;
     //Opening File
     ifstream fs(file_name);
 
     if (!fs.is_open())
     {
+        //Error message if file can't be opened
         cout << "Could not open file.  Program is exiting." << endl;
         return false;
     }
-    //Read data
+    //Read each line of data into patron ID, patron first name, and patron last name
     else
         for (i = 0; i < arraySize; i++)
         {
@@ -117,93 +139,110 @@ bool StoreDataPatron(string file_name, patronRecord patronlist[], int arraySize)
 
         }
 
-
-
     //Closing file
     fs.close();
     return true;
 }
 
+//This function adds a book to the master list of books
+//Maureen Renaud
+
 void addBook(bookRecord list[])
 {
     int index;
     int i;
-    int j;
 
+    //This looks for the index of the first line of blank rows (with zeroes instead of entries)
     for (int i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
         if (list[i].ID == 0)
         {
-            //If current value is equal to our element then replace the index value and break the loop
             index = i;
         }
     }
-    j = index;
+
+    //This overwrites the blank row with data about the book
 
     cout << "Please enter the ID number of the book: ";
-    cin >> list[j].ID;
+    cin >> list[index].ID;
     cin.ignore();
     cout << "Please enter the title of the book followed by an asterisk(*): ";
-    getline(cin, list[j].title, '*');
+    getline(cin, list[index].title, '*');
      
     cout << "Please enter the author's last name: ";
-    cin >> list[j].authorLast;
-
-    cout << endl;
-
+    cin >> list[index].authorLast;
+    
+    //Print result
+    cout << endl << "Book " << list[index].title << " added to the master list of books." << endl << endl;
 }
+
+//This function will delete an entry from the master list of books
+//Maureen Renaud
 
 void deleteBook(bookRecord list[])
 {
-    int len;
-    int i;
+    int i, j;
     int ID_num;
     int index = 0;
-
-    len = sizeof(list);
 
     cout << "Please enter the ID number of the book: ";
     cin >> ID_num;
 
+    //This looks for the index of the book that is to be deleted
     for (int i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
         if (list[i].ID == ID_num)
         {
-            //If current value is equal to our element then replace the index value and break the loop
             index = i;
         }
     }
-    list[index].ID = 0;
-    list[index].title = " ";
-    list[index].authorLast = " ";
+
+    //Print result
+    cout << endl << list[index].title << " successfully deleted." << endl << endl;
+
+    //This moves everything above the line to be deleted down a spot in the array, so that the
+    //deleted item is overwritten
+
+    for (int j = index + 1; j < PATRON_ARRAY_SIZE; j++) 
+    {
+        list[j - 1] = list[j];
+    }
+ 
 }
+
+//This function adds a patron to the master list of patrons
+//Maureen Renaud
 
 void addPatron(patronRecord list[])
 {
     int index;
     int i;
-    int j;
 
+    //This looks for the first row that does not have data (is full of zeroes) and finds the index of that row
     for (int i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
         if (list[i].ID == 0)
         {
-            //If current value is equal to our element then replace the index value and break the loop
             index = i;
         }
     }
-    j = index;
 
+    //Add the patron information to that empty row
     cout << "Please enter the patron's ID number: ";
-    cin >> list[j].ID;
+    cin >> list[index].ID;
     cin.ignore();
     cout << "Please enter the patron's first name: ";
-    cin >> list[j].firstName;
+    cin >> list[index].firstName;
     cin.ignore();
     cout << "Please enter the patron's last name: ";
-    cin >> list[j].lastName;
+    cin >> list[index].lastName;
 
+    cout << endl << "Patron " << list[index].firstName << " " << list[index].lastName 
+        << " added to the master list of patrons." << endl << endl;
 }
+
+//This function deletes a patron from the master list of patrons
+//Maureen Renaud
 
 void deletePatron(patronRecord list[])
 {
@@ -217,47 +256,73 @@ void deletePatron(patronRecord list[])
     cout << "Please enter the ID for the patron to be deleted: ";
     cin >> deleted;
 
+    //This looks for the index of the patron to be deleted
+
     for (int i = 0; i < PATRON_ARRAY_SIZE; i++)
     {
         if (list[i].ID == deleted)
         {
-            //If current value is equal to the deleted index then replace the index value and break the loop
             index = i;
         }
     }
+
+    //Print result
+    cout << endl << list[index].firstName << " " << list[index].lastName
+        << " successfully deleted." << endl << endl;
+
+   //This moves everything above the line to be deleted down a spot in the array, so that the
+   //deleted item is overwritten
+
     for (int j = index + 1; j < PATRON_ARRAY_SIZE; j++) {
         list[j - 1] = list[j];
     }
 
 }
 
+//This function inputs information into an array of structures containing information on borrowed books
+//Maureen Renaud
+
 void borrowBook(borrowedRecord list[])
 {
-    int len;
-    int i;
+    //Variables
+    int i, index;
 
-    len = sizeof(list);
-    i = len + 1;
+    //This function looks for the index number of the first blank row in this array
+    for (int i = 0; i < BOOK_ARRAY_SIZE; i++)
+    {
+        if (list[i].bookID == 0)
+        {
+            index = i;
+        }
+    }
     
+    //This adds information to the blank strucutre in that array of borrowed books
     cout << "Please enter the ID number of the book: ";
-    cin >> list[i].bookID;
+    cin >> list[index].bookID;
     cin.ignore();
     cout << "Please enter the title of the book followed by an asterisk(*): ";
-    getline(cin, list[i].title, '*');
+    getline(cin, list[index].title, '*');
     cin.ignore();
     cout << "Please enter the author's last name: ";
-    cin >> list[i].authorLast;
+    cin >> list[index].authorLast;
     cout << "Please enter the ID number of the patron: ";
-    cin >> list[i].patronID;
+    cin >> list[index].patronID;
     cin.ignore();
     cout << "Please enter patron's first name: ";
-    cin >> list[i].patronfirstName;
+    cin >> list[index].patronfirstName;
     cin.ignore();
     cout << "Please enter the patron's last name: ";
-    cin >> list[i].patronlastName;
+    cin >> list[index].patronlastName;
 
     cout << endl;
+
+    //Print Result
+    cout << list[index].title << " successfully check out to patron: " << list[index].patronfirstName
+        << " " << list[index].patronlastName << endl << endl;
 }
+
+//This function removes a book from the array of borrowed books
+//Maureen Renaud
 
 void returnBook(borrowedRecord list[])
 {
@@ -267,24 +332,33 @@ void returnBook(borrowedRecord list[])
     int index = 0;
     int j = 0;
 
-    // Describe
+    // Get the ID for the book to be returned
     cout << "Please enter the ID for the returned book: ";
     cin >> returned;
 
-  
+   //Find the index number of the book to be returned
     for (int i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
         if (list[i].bookID == returned)
         {
-            //If current value is equal to our element then replace the index value and break the loop
             index = i;
         }
     }
+
+    //Print Result
+    cout << list[index].title << " successfuly returned." << endl << endl;
+
+    //Move everything in the rows above returend book down a line so that it overwrites the information 
+    //for the returned book
+
     for (int j = index + 1; j < BOOK_ARRAY_SIZE; j++) {
         list[j - 1] = list[j];
     }
     
 }
+
+//Find information on the items checked out be a patron
+//Joshua Quintano
 
 void checkAccount(borrowedRecord list[])
 {  
@@ -308,44 +382,57 @@ void checkAccount(borrowedRecord list[])
        
 
     }
-    for (int k = 0; k < j+1; k++) {
+    for (int k = 0; k < j+1; k++) 
+    {
         cout << accountbooks[k] << endl;
     }
     
 }
+
+//Find information by books on the master list of the library
+//Maureen Renaud
 
 void checkBookList(bookRecord list[])
 {
     cout << "Books Owned By The Library" << endl;
     int i = 0;
 
+    //If the row contains zeroes, skip over it
     for (i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
         if (list[i].ID == 0)
         {
             continue;
         }
+
+        //If it contains information, print it out
         else
         {
-            cout << list[i].ID << ("..") << list[i].title << ("..") << list[i].authorLast << endl;
+            cout << list[i].ID << (". ") << list[i].title << (" ") << list[i].authorLast << endl;
         }
     }
 }
 
+//Find the list of all books that have been borrowed
+//Maureen Renaud
+
 void checkBorrowedBooks(borrowedRecord list[])
 {
+    cout << "Borrowed Books: " << endl;
+
     int i = 0;
     for (i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
+        //If a row has no data, skip over it
         if (list[i].bookID == 0)
         {
-
             continue;
         }
         else
         {
-            cout << list[i].bookID << ("..") << list[i].title << ("..") << list[i].authorLast << endl;
-            cout << list[i].patronfirstName << ("..") << list[i].patronlastName << endl;
+            //Print out rows with data
+            cout << list[i].bookID << (". ") << list[i].title << (" ") << list[i].authorLast << endl;
+            cout << "Check out by: " << list[i].patronfirstName << ("..") << list[i].patronlastName << endl;
         }
         
        
@@ -353,11 +440,16 @@ void checkBorrowedBooks(borrowedRecord list[])
 
 }
 
+//Check master list of patrons
+//Maureen Renaud
+
 void checkPatrons(patronRecord list[])
 {
+    cout << "List of patrons: " << endl;
     int i = 0;
     for (i = 0; i < PATRON_ARRAY_SIZE; i++)
     {
+        //If a row has no information, skip over it
         if (list[i].ID == 0)
         {
 
@@ -365,21 +457,16 @@ void checkPatrons(patronRecord list[])
         }
         else
         {
-            cout << list[i].ID << ("..") << list[i].firstName << ("..") << list[i].lastName << endl;
+            //Print the rows with data
+            cout << list[i].ID << (". ") << list[i].firstName << (" ") << list[i].lastName << endl;
         }
-
-
     }
-
 }
 
 //Main
+//Joshua Quintano and Maureen Renaud
 int main()
 {
-    //int argc, char* argv[]
-    //Variables
-    //string bookfile = argv[1];
-    //string patronfile = argv[2];
     string input;
     int i;
 
@@ -388,6 +475,7 @@ int main()
     patronRecord patronList[PATRON_ARRAY_SIZE];
     borrowedRecord borrowedBooks[BOOK_ARRAY_SIZE];
     
+    //Initialize all rows in the borrowed book array to zero
     for (i = 0; i < BOOK_ARRAY_SIZE; i++)
     {
         borrowedBooks[i].bookID = 0;
@@ -399,11 +487,12 @@ int main()
 
     }
     
-    //function calls
+    //function calls to pull data in from the files and print the menu
     StoreData(book_file_name, bookList, BOOK_ARRAY_SIZE);
     StoreDataPatron(patron_file_name, patronList, PATRON_ARRAY_SIZE);
     PrintMenu();
 
+    //Menu to select desired action
     while (input != "q")
     {
         cout << "Please make a selection: ";
@@ -470,4 +559,8 @@ int main()
 }
 
 
-
+//Unused Code
+    //int argc, char* argv[]
+    //Variables
+    //string bookfile = argv[1];
+    //string patronfile = argv[2];
