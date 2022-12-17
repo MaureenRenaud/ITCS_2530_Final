@@ -73,7 +73,7 @@ void PrintMenu()
 
     string input;
    
-    //prints options
+    //prints menu options
     cout << "Add book to book list(AB)." << endl;
     cout << "Delete book from booklist(DB)." << endl;
     cout << "Add patron to patron list(AP)." << endl;
@@ -472,8 +472,10 @@ void checkPatrons(patronRecord list[])
 //Joshua Quintano and Maureen Renaud
 int main(int argc, char* argv[])
 {
+    //assigns command line arguments to variables
     string book_file_name = argv[1];
     string patron_file_name = argv[2];
+    
     string input;
     int i;
 
