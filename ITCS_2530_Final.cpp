@@ -66,12 +66,14 @@ string patron_file_name = "Patrons.txt";
 
 void PrintMenu()
 {
+    //prints menu
     cout << setw(28) << setfill('*') << '*' << endl;
     cout << setw(5) << setfill('*') << '*' << " Library Services " << setw(5) << setfill('*') << '*' << endl;
     cout << setw(28) << setfill('*') << '*' << endl << endl;
 
     string input;
    
+    //prints options
     cout << "Add book to book list(AB)." << endl;
     cout << "Delete book from booklist(DB)." << endl;
     cout << "Add patron to patron list(AP)." << endl;
@@ -370,21 +372,24 @@ void checkAccount(borrowedRecord list[])
     cout << "Please enter an ID number: ";
     cin >> id;
 
-   
+    //loop that searches for matching id and adds respective book to the array
     for (int i = 0; i< BOOK_ARRAY_SIZE; i++){
         if (id = list[i].patronID) {
             accountbooks[j] = list[i].title;
-            j = j + 1;
-            cout << accountbooks[0];
+            j = j + 1;            
         }
         else
             continue;
        
 
     }
+    //opens new file
+    ofstream newfile("account.txt");
     for (int k = 0; k < j+1; k++) 
     {
+        //prints output to new file and program output screen
         cout << accountbooks[k] << endl;
+        newfile << accountbooks[k] << endl;
     }
     
 }
@@ -465,8 +470,10 @@ void checkPatrons(patronRecord list[])
 
 //Main
 //Joshua Quintano and Maureen Renaud
-int main()
+int main(int argc, char* argv[])
 {
+    string book_file_name = argv[1];
+    string patron_file_name = argv[2];
     string input;
     int i;
 
