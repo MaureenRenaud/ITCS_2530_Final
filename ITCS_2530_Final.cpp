@@ -237,8 +237,8 @@ void borrowBook(borrowedRecord list[])
     int i;
 
     len = sizeof(list);
-    i = len + 1;
-
+ 
+    cout << len;
     cout << "Please enter the ID number of the book: ";
     cin >> list[i].bookID;
     cin.ignore();
@@ -286,22 +286,32 @@ void returnBook(borrowedRecord list[])
     
 }
 
-void checkAccount(bookRecord list[])
-{
-   
-    int i = 0;
+void checkAccount(borrowedRecord list[])
+{  
+    int id; 
+    int j = 0;
+    int k = 0;
+    string accountbooks[100];
+    
+    cout << "Please enter an ID number: ";
+    cin >> id;
 
-    for (i = 0; i < BOOK_ARRAY_SIZE; i++)
-    {
-        if (list[i].ID == 0)
-        {
-            continue;
+   
+    for (int i = 0; i< BOOK_ARRAY_SIZE; i++){
+        if (id = list[i].patronID) {
+            accountbooks[j] = list[i].title;
+            j = j + 1;
+            cout << accountbooks[0];
         }
         else
-        {
-            cout << list[i].ID << ("..") << list[i].title << ("..") << list[i].authorLast << endl;
-        }
+            continue;
+       
+
     }
+    for (int k = 0; k < j+1; k++) {
+        cout << accountbooks[k] << endl;
+    }
+    
 }
 
 void checkBookList(bookRecord list[])
@@ -435,7 +445,7 @@ int main()
         }
         else if (input == "CA")
         {
-            checkAccount(bookList);
+            checkAccount(borrowedBooks);
             
         }
         else if (input == "CP")
