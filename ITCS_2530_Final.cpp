@@ -87,7 +87,7 @@ void PrintMenu()
 }
 
 //This function opens up the file of books and writes the data to an array of structures.
-//Maureen Renaud
+//Maureen Renaud and Joshua Quintano
 
 bool StoreData(string file_name, bookRecord list[], int arraySize)
 {
