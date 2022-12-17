@@ -80,10 +80,10 @@ void PrintMenu()
     cout << "Delete patron from patron list(DP)." << endl;
     cout << "Borrow book(BB)." << endl;
     cout << "Return book(RB)." << endl;
-    cout << "Check borrowed books (CBB)." << endl;
+    cout << "Check list of all borrowed books (CBB)." << endl;
     cout << "Check patron list(CP)." << endl;
-    cout << "To check the record of all books (All). " << endl;
-    cout << "Check account(CA)." << endl << endl;
+    cout << "To check the record of all books in library (All). " << endl;
+    cout << "Check patron account(CA)." << endl << endl;
 }
 
 //This function opens up the file of books and writes the data to an array of structures.
